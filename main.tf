@@ -2,7 +2,7 @@
 
 terraform {
   backend "s3" {
-    bucket = "mayurcbz.spaceee"
+    bucket = "mayurcbz.com"
     key    = "eks/terraform.tfstate"
     region = "us-west-2"
   }
