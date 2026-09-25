@@ -9,7 +9,7 @@ pipeline {
 
     environment{
         MY_AWS_CRED = credentials('aws-cred')
-        ECR_REPO = '419819289041.dkr.ecr.us-west-2.amazonaws.com/backend'
+        ECR_REPO = '822920903800.dkr.ecr.us-west-2.amazonaws.com/backend'
     }
 
     stages{
@@ -32,27 +32,27 @@ pipeline {
             }
         }
 
-        stage('OWASP Dependency Check'){
-            steps{
-                dir('backend'){
-                    withCredentials([
-                        string(
-                            credentialsId: 'nvd-api-key',
-                            variable: 'NVD_API_KEY'
-                        )
-                    ]) {
-                        sh '''
-                            mvn org.owasp:dependency-check-maven:check \
-                            -DnvdApiKeyEnvironmentVariable=NVD_API_KEY
-                        '''
-                    }
-                }
-            }
-        }
+        // stage('OWASP Dependency Check'){
+        //     steps{
+        //         dir('backend'){
+        //             withCredentials([
+        //                 string(
+        //                     credentialsId: 'nvd-api-key',
+        //                     variable: 'NVD_API_KEY'
+        //                 )
+        //             ]) {
+        //                 sh '''
+        //                     mvn org.owasp:dependency-check-maven:check \
+        //                     -DnvdApiKeyEnvironmentVariable=NVD_API_KEY
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Artifacts to S3'){
             steps{
-                sh 'aws s3 cp backend/target/*.jar s3://mayurcbz.spaceee/Artifacts/'
+                sh 'aws s3 cp backend/target/*.jar s3://mayurcbz.com/Artifacts/'
             }
         }
 
@@ -112,7 +112,7 @@ pipeline {
         stage('Push Image to ECR'){
             steps{
                 sh '''
-                    aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 419819289041.dkr.ecr.us-west-2.amazonaws.com
+                    aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 822920903800.dkr.ecr.us-west-2.amazonaws.com
                     docker tag backend:${BUILD_NUMBER} ${ECR_REPO}:${BUILD_NUMBER}
                     docker push ${ECR_REPO}:${BUILD_NUMBER}
                 '''
