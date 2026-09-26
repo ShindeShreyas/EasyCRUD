@@ -6,7 +6,7 @@ metadata:
     app: backend 
 
 spec: 
-  replicas: 2
+  replicas: 3
   strategy:
     type: RollingUpdate 
     rollingUpdate: 
@@ -22,7 +22,7 @@ spec:
     spec: 
       containers: 
         - name: backend-container
-          image: 822920903800.dkr.ecr.us-west-2.amazonaws.com/backend:8
+          image: 822920903800.dkr.ecr.us-west-2.amazonaws.com/backend:14
           ports: 
             - containerPort: 8080
         
