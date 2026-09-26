@@ -148,5 +148,20 @@ pipeline {
                 }
             }
         }
+
+        stage('Update Argocd'){
+            steps{
+                dir('argocd'){
+                    sh '''
+                        aws eks update-kubeconfig --name my-eks-cluster-mayur --region us-west-2
+                        kubectl apply -f backend-application.yaml
+                        kubectl get app -n argocd
+                        sleep 10
+                        kubectl get pods 
+                        kubectl get svc -o wide
+                    '''
+                }
+            }
+        }
     }
 }
